@@ -21,6 +21,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //TODO add retrofit
+    //Todo add picasso or universal image loader
+    //TOdo card view recycler view or other super listview
+    // compile 'com.wrapp.floatlabelededittext:library:0.0.3'  //floating label edittext
     compile 'com.android.support:appcompat-v7:19.+'
     compile 'de.greenrobot:eventbus:2.2.+'
     compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'

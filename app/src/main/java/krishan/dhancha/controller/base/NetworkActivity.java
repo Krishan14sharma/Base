@@ -1,5 +1,7 @@
 package krishan.dhancha.controller.base;
 
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Toast;
 import com.devspark.appmsg.AppMsg;
 
 import de.greenrobot.event.EventBus;
+import krishan.dhancha.controller.receiver.NetworkStateReceiver;
 import krishan.dhancha.event.NetworkStateChanged;
 import krishan.dhancha.helper.NetworkUtil;
 
@@ -47,6 +50,17 @@ public class NetworkActivity extends ActionBarActivity {
         {
             onEventMainThread(new NetworkStateChanged(true,NetworkUtil.getConnectivityStatus(getApplicationContext())));
         }
+        PackageManager pm = getPackageManager();
+        ComponentName compName = new ComponentName(getApplicationContext(),NetworkStateReceiver.class);
+        pm.setComponentEnabledSetting(compName,PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PackageManager pm = getPackageManager();
+        ComponentName compName = new ComponentName(getApplicationContext(),NetworkStateReceiver.class);
+        pm.setComponentEnabledSetting(compName,PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
     }
 
     @Override
