@@ -11,8 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.devspark.appmsg.AppMsg;
+
+import java.util.List;
+
 import krishan.dhancha.R;
+import krishan.dhancha.api.ApiClient;
 import krishan.dhancha.controller.base.NetworkActivity;
+import krishan.dhancha.model.Movie;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class HomeActivity extends NetworkActivity {
@@ -57,9 +66,37 @@ public class HomeActivity extends NetworkActivity {
         }
 
         @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+
+        }
+
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            ApiClient.getTwitchTvApiClient().getStreams(10,0,new Callback<List<Movie>>() {
+                @Override
+                public void success(List<Movie> justinTvStreamDatas, Response response) {
+                    AppMsg msg =  AppMsg.makeText(getActivity(), justinTvStreamDatas.get(0).getMovieTitle(), AppMsg.STYLE_CONFIRM)
+                            .setAnimation(android.support.v7.appcompat.R.anim.abc_slide_in_top, android.support.v7.appcompat.R.anim.abc_slide_out_top);
+                    msg.setPriority(AppMsg.PRIORITY_HIGH);
+                    msg.setDuration(AppMsg.LENGTH_SHORT);
+                    msg.show();
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+                    AppMsg msg =  AppMsg.makeText(getActivity(), "Failed to Fetch Data!", AppMsg.STYLE_ALERT)
+                            .setAnimation(android.support.v7.appcompat.R.anim.abc_slide_in_top, android.support.v7.appcompat.R.anim.abc_slide_out_top);
+                    msg.setPriority(AppMsg.PRIORITY_HIGH);
+                    msg.setDuration(AppMsg.LENGTH_SHORT);
+                    msg.show();
+
+                }
+            });
             return rootView;
         }
     }

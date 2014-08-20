@@ -30,4 +30,13 @@ dependencies {
     compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
     compile 'com.jakewharton:butterknife:5.1.2'
     compile 'com.jakewharton.timber:timber:2.4.+'
+    // You must install or update the Support Repository through the SDK manager to use this dependency.
+    compile 'com.android.support:support-v4:19.+'
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile 'com.mobsandgeeks:android-saripaar:1.0.2'
+    //network
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'com.google.code.gson:gson:2.2.4'
 }
