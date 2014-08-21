@@ -1,24 +1,25 @@
 package krishan.dhancha.controller.activity;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import com.devspark.appmsg.AppMsg;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import krishan.dhancha.R;
 import krishan.dhancha.api.ApiClient;
+import krishan.dhancha.controller.adapter.MovieAdapter;
 import krishan.dhancha.controller.base.NetworkActivity;
 import krishan.dhancha.model.Movie;
+import krishan.dhancha.view.superlistview.SuperListview;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -62,6 +63,10 @@ public class HomeActivity extends NetworkActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+
+        @InjectView(R.id.list)
+        SuperListview list_movie;
+
         public PlaceholderFragment() {
         }
 
@@ -74,22 +79,24 @@ public class HomeActivity extends NetworkActivity {
 
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            ApiClient.getTwitchTvApiClient().getStreams(10,0,new Callback<List<Movie>>() {
+            ButterKnife.inject(this,rootView);
+            ApiClient.getTwitchTvApiClient().getStreams(10, 0, new Callback<List<Movie>>() {
                 @Override
                 public void success(List<Movie> justinTvStreamDatas, Response response) {
-                    AppMsg msg =  AppMsg.makeText(getActivity(), justinTvStreamDatas.get(0).getMovieTitle(), AppMsg.STYLE_CONFIRM)
+                    AppMsg msg = AppMsg.makeText(getActivity(), justinTvStreamDatas.get(0).getMovieTitle(), AppMsg.STYLE_CONFIRM)
                             .setAnimation(android.support.v7.appcompat.R.anim.abc_slide_in_top, android.support.v7.appcompat.R.anim.abc_slide_out_top);
                     msg.setPriority(AppMsg.PRIORITY_HIGH);
                     msg.setDuration(AppMsg.LENGTH_SHORT);
                     msg.show();
+                    MovieAdapter adapter=new MovieAdapter(getActivity(),justinTvStreamDatas);
+                    list_movie.setAdapter(adapter);
                 }
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
-                    AppMsg msg =  AppMsg.makeText(getActivity(), "Failed to Fetch Data!", AppMsg.STYLE_ALERT)
+                    AppMsg msg = AppMsg.makeText(getActivity(), "Failed to Fetch Data!", AppMsg.STYLE_ALERT)
                             .setAnimation(android.support.v7.appcompat.R.anim.abc_slide_in_top, android.support.v7.appcompat.R.anim.abc_slide_out_top);
                     msg.setPriority(AppMsg.PRIORITY_HIGH);
                     msg.setDuration(AppMsg.LENGTH_SHORT);
@@ -99,5 +106,11 @@ public class HomeActivity extends NetworkActivity {
             });
             return rootView;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }
