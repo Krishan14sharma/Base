@@ -4,7 +4,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class CancelableCallback implements Callback {
+public class CancelableCallback<T> implements Callback<T> {
 
     private final Callback callback;
 
@@ -19,17 +19,21 @@ public class CancelableCallback implements Callback {
         canceled = true;
     }
 
+
     @Override
-    public void success(Object o, Response response) {
+    public void success(T t, Response response) {
         if (!canceled) {
-            callback.success(o, response);
+            callback.success(t, response);
         }
+
+
+
     }
 
     @Override
-    public void failure(RetrofitError error) {
-        if (!canceled) {
-            callback.failure(error);
-        }
+    public void failure(RetrofitError retrofitError)
+    {  if (!canceled) {
+        callback.failure(retrofitError);
+    }
     }
 }

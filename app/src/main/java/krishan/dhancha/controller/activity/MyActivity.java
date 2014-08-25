@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Required;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -18,6 +20,8 @@ import timber.log.Timber;
 
 public class MyActivity extends NetworkActivity implements Validator.ValidationListener {
 
+    @Required(order = 1)
+    @Email(order = 2)
     @InjectView(R.id.edt_username)
     FloatLabeledEditText mEdtUsername;
     @InjectView(R.id.edt_password)

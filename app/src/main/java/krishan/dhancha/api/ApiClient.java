@@ -33,7 +33,7 @@ public class ApiClient {
             }
             okHttpClient.setCache(httpResponseCache);
             RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("https://yts.re/api").setLogLevel(RestAdapter.LogLevel.HEADERS).setClient(new OkClient(okHttpClient))
+                    .setEndpoint("https://yts.re/api").setLogLevel(RestAdapter.LogLevel.BASIC).setClient(new OkClient(okHttpClient))
                     .build();
             sTwitchTvService = restAdapter.create(TwitchTvApiInterface.class);
         }

@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.squareup.picasso.Picasso;
 
+import java.util.List;
 import krishan.dhancha.R;
+import krishan.dhancha.helper.CircleTransform;
 import krishan.dhancha.model.Movie;
 
 /**
@@ -58,7 +61,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
             // TODO store references to your views
             holder.textView = (TextView) convertView.findViewById(R.id.textView);
-
+            holder.imageView=(ImageView)convertView.findViewById(R.id.imageView);
             convertView.setTag(holder);
 
         } else {
@@ -73,7 +76,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         if (item != null){
             // TODO Bind your data efficiently with the holder.
             holder.textView.setText(item.getMovieTitle());
-
+            Picasso.with(getContext()).load(item.getMovieCover()).transform(new CircleTransform(item.getImdbCode())).into(holder.imageView);
         }
 
 
@@ -89,6 +92,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         // TODO define members for each view in the item layout
         //public TextView text;
         TextView textView;
+        ImageView imageView;
     }
 
 
@@ -101,4 +105,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         return mContext;
     }
 
+    private void changeData()
+    {
+
+    }
 }

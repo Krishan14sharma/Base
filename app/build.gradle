@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "krishan.dhancha"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -39,4 +39,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.squareup.picasso:picasso:2.3.3'
 }
