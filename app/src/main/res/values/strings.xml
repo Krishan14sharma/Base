@@ -4,5 +4,15 @@
     <string name="app_name">Dhancha</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="app_name1">SuperListview</string>
+    <string name="validation_valid_email">Email is not valid</string>
+    <string name="not_empty">can not be empty</string>
+    <string name="validation_name_length">minimum required 3 letters</string>
 
+    <string-array name="gender">
+        <item>male</item>
+        <item>female</item>
+
+    </string-array>
 </resources>

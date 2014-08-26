@@ -1,54 +1,77 @@
 package krishan.dhancha.controller.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.annotations.RegExp;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import krishan.dhancha.R;
 import krishan.dhancha.controller.base.NetworkActivity;
-import timber.log.Timber;
 
 
 public class MyActivity extends NetworkActivity {
 
-    @InjectView(R.id.button)
-    Button btn_test;
+    @NotEmpty(messageId = R.string.not_empty,order = 1)
+    @RegExp(value = RegExp.EMAIL, messageId = R.string.validation_valid_email,order = 2)
+    @InjectView(R.id.edt_email)
+    EditText mEdtEmail;
+
+    @MinLength(value = 3, messageId = R.string.validation_name_length, order = 3)
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.edt_password)
+    EditText mEdtPassword;
+
+    @MinLength(value = 3, messageId = R.string.validation_name_length, order = 4)
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.edt_confirm)
+    EditText mEdtConfirm;
+
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.edt_phone)
+    EditText mEdtPhone;
+
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.spinner)
+    Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.login);
         ButterKnife.inject(this);
-        Timber.d("activity Created");
-        btn_test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.i("A button with ID %s was clicked to say '%s'.", btn_test.getId(), btn_test.getText());
+        FormValidator.startLiveValidation(this, mEdtEmail, new SimpleErrorPopupCallback(this, false));
+        FormValidator.startLiveValidation(this, mEdtConfirm, new SimpleErrorPopupCallback(this, false));
+
+    }
+
+    @OnClick(R.id.button)
+    void pressed() {
+        mEdtConfirm.setError(null);
+        boolean isvalid = FormValidator.validate(this, new SimpleErrorPopupCallback(this));
+        if (isvalid) {
+            if(mEdtConfirm.getText().toString().equals(mEdtPassword.getText().toString())) {
+                Intent in = new Intent(MyActivity.this, HomeActivity.class);
+                startActivity(in);
+            }else
+            {
+                mEdtConfirm.setError("Passwrd do not match");
             }
-        });
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
         }
-        return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FormValidator.stopLiveValidation(this);
+    }
+
 }

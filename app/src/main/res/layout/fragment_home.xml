@@ -1,0 +1,17 @@
+
+<krishan.dhancha.view.superlistview.SuperListview  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:superlistview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    superlistview:superlv__listClipToPadding="false"
+    superlistview:superlv__listDivider="@color/secondary_text_color"
+    superlistview:superlv__listDividerHeight="1dp"
+    superlistview:superlv__listPadding="10dp"
+    superlistview:superlv__empty="@layout/emptyview"
+    superlistview:superlv__scrollbarStyle="outsideOverlay"
+    android:background="#364751"
+
+    >
+</krishan.dhancha.view.superlistview.SuperListview>
+

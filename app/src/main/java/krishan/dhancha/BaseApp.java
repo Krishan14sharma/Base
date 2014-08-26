@@ -1,16 +1,28 @@
 package krishan.dhancha;
 
 import android.app.Application;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.pm.PackageManager;
 
+import krishan.dhancha.controller.receiver.NetworkStateReceiver;
 import timber.log.Timber;
 
 /**
  * Created by ANIRUDH on 16-Aug-14.
  */
 public class BaseApp extends Application {
+    private static BaseApp instance;
+
+
+    public static Context getContext() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance=this;
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
@@ -37,4 +49,4 @@ public class BaseApp extends Application {
             // TODO e.g., Crashlytics.logException(t);
         }
     }
-    }
+}

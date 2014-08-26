@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="krishan.dhancha" >
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:name=".BaseApp"
@@ -11,7 +12,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".controller.activity.MyActivity"
             android:label="@string/app_name" >
@@ -24,12 +24,21 @@
 
         <receiver
             android:name=".controller.receiver.NetworkStateReceiver"
-            android:enabled="true"
+            android:enabled="false"
             android:exported="true" >
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".controller.activity.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:parentActivityName="krishan.dhancha.controller.activity.MyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MyActivity" />
+        </activity>
     </application>
 
 </manifest>
