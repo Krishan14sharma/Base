@@ -2,65 +2,76 @@ package krishan.dhancha.controller.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Email;
-import com.mobsandgeeks.saripaar.annotation.Required;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.annotations.RegExp;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import krishan.dhancha.R;
 import krishan.dhancha.controller.base.NetworkActivity;
-import krishan.dhancha.view.FloatLabeledEditText;
-import timber.log.Timber;
 
 
-public class MyActivity extends NetworkActivity implements Validator.ValidationListener {
+public class MyActivity extends NetworkActivity {
 
-    @Required(order = 1)
-    @Email(order = 2)
-    @InjectView(R.id.edt_username)
-    FloatLabeledEditText mEdtUsername;
-    @InjectView(R.id.edt_password)
-    FloatLabeledEditText mEdtPassword;
-    @InjectView(R.id.edt_cnfrm)
-    FloatLabeledEditText mEdtCnfrm;
+    @NotEmpty(messageId = R.string.not_empty,order = 1)
+    @RegExp(value = RegExp.EMAIL, messageId = R.string.validation_valid_email,order = 2)
     @InjectView(R.id.edt_email)
-    FloatLabeledEditText mEdtEmail;
-    @InjectView(R.id.btn_signup)
-    Button mBtnSignup;
+    EditText mEdtEmail;
 
-    Validator validator;
+    @MinLength(value = 3, messageId = R.string.validation_name_length, order = 3)
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.edt_password)
+    EditText mEdtPassword;
+
+    @MinLength(value = 3, messageId = R.string.validation_name_length, order = 4)
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.edt_confirm)
+    EditText mEdtConfirm;
+
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.edt_phone)
+    EditText mEdtPhone;
+
+    @NotEmpty(messageId = R.string.not_empty)
+    @InjectView(R.id.spinner)
+    Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.login);
         ButterKnife.inject(this);
-        validator = new Validator(this);
-        validator.setValidationListener(this);
-        Timber.d("activity Created");
+        FormValidator.startLiveValidation(this, mEdtEmail, new SimpleErrorPopupCallback(this, false));
+        FormValidator.startLiveValidation(this, mEdtConfirm, new SimpleErrorPopupCallback(this, false));
 
-        mBtnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.i("A button with ID %s was clicked to say '%s'.", mBtnSignup.getId(), mBtnSignup.getText());
+    }
+
+    @OnClick(R.id.button)
+    void pressed() {
+        mEdtConfirm.setError(null);
+        boolean isvalid = FormValidator.validate(this, new SimpleErrorPopupCallback(this));
+        if (isvalid) {
+            if(mEdtConfirm.getText().toString().equals(mEdtPassword.getText().toString())) {
                 Intent in = new Intent(MyActivity.this, HomeActivity.class);
                 startActivity(in);
+            }else
+            {
+                mEdtConfirm.setError("Passwrd do not match");
             }
-        });
+        }
     }
+
 
     @Override
-    public void onValidationSucceeded() {
-
+    protected void onStop() {
+        super.onStop();
+        FormValidator.stopLiveValidation(this);
     }
 
-    @Override
-    public void onValidationFailed(View view, Rule<?> rule) {
-
-    }
 }
