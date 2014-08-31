@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.devspark.appmsg.AppMsg;
 
 import de.greenrobot.event.EventBus;
+import krishan.dhancha.api.ApiClient;
 import krishan.dhancha.controller.receiver.NetworkStateReceiver;
 import krishan.dhancha.event.NetworkStateChanged;
 import krishan.dhancha.helper.NetworkUtil;
@@ -25,6 +26,13 @@ public class NetworkActivity extends ActionBarActivity {
     }
     private boolean isInternetconnected=true;
     AppMsg msg;
+    protected ApiClient.ApiInterface server;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        server=ApiClient.getApiClient();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

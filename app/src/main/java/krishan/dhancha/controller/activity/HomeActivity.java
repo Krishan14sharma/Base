@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.devspark.appmsg.AppMsg;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +33,7 @@ import retrofit.client.Response;
 public class HomeActivity extends NetworkActivity {
 
     public static final int NO_OF_ITEMS=10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +107,7 @@ public class HomeActivity extends NetworkActivity {
 
             callback=new CancelableCallback<List<Movie>>(callback1);
 
-            ApiClient.getTwitchTvApiClient().getStreams(NO_OF_ITEMS, set,callback);
+            ApiClient.getApiClient().getStreams(NO_OF_ITEMS, set,callback);
         }
 
 
@@ -136,13 +135,13 @@ public class HomeActivity extends NetworkActivity {
         public void onRefresh() {
 //            list_movie.showProgress();
 //            set=1;
-//            ApiClient.getTwitchTvApiClient().getStreams(NO_OF_ITEMS, set,callback);
+//            ApiClient.getApiClient().getStreams(NO_OF_ITEMS, set,callback);
 //            Toast.makeText(getActivity(),"refresh",Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
-            ApiClient.getTwitchTvApiClient().getStreams(NO_OF_ITEMS,set,callback);
+            ApiClient.getApiClient().getStreams(NO_OF_ITEMS,set,callback);
         }
 
         @Override
