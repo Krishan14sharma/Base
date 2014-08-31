@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.crashlytics.android.Crashlytics;
+
 import krishan.dhancha.controller.receiver.NetworkStateReceiver;
 import timber.log.Timber;
 
@@ -22,6 +24,7 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Crashlytics.start(this);
         instance=this;
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -30,10 +33,9 @@ public class BaseApp extends Application {
         }
     }
 
-    /** A tree which logs important information for crash reporting. */
     private static class CrashReportingTree extends Timber.HollowTree {
         @Override public void i(String message, Object... args) {
-            // TODO e.g., Crashlytics.log(String.format(message, args));
+            Crashlytics.log(String.format(message, args));
         }
 
         @Override public void i(Throwable t, String message, Object... args) {
@@ -46,7 +48,7 @@ public class BaseApp extends Application {
 
         @Override public void e(Throwable t, String message, Object... args) {
             e(message, args);
-            // TODO e.g., Crashlytics.logException(t);
+            Crashlytics.logException(t);
         }
     }
 }

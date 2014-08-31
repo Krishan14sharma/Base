@@ -21,6 +21,7 @@ import krishan.dhancha.api.ApiClient;
 import krishan.dhancha.api.helper.CancelableCallback;
 import krishan.dhancha.controller.adapter.MovieAdapter;
 import krishan.dhancha.controller.base.NetworkActivity;
+import krishan.dhancha.controller.base.ServerFragment;
 import krishan.dhancha.model.Movie;
 import krishan.dhancha.view.superlistview.OnMoreListener;
 import krishan.dhancha.view.superlistview.SuperListview;
@@ -68,7 +69,7 @@ public class HomeActivity extends NetworkActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,OnMoreListener, SwipeDismissListViewTouchListener.DismissCallbacks {
+    public static class PlaceholderFragment extends ServerFragment implements SwipeRefreshLayout.OnRefreshListener,OnMoreListener, SwipeDismissListViewTouchListener.DismissCallbacks {
 
 
         @InjectView(R.id.list)
@@ -107,7 +108,7 @@ public class HomeActivity extends NetworkActivity {
 
             callback=new CancelableCallback<List<Movie>>(callback1);
 
-            ApiClient.getApiClient().getStreams(NO_OF_ITEMS, set,callback);
+            server.getStreams(NO_OF_ITEMS, set,callback);
         }
 
 
@@ -137,6 +138,8 @@ public class HomeActivity extends NetworkActivity {
 //            set=1;
 //            ApiClient.getApiClient().getStreams(NO_OF_ITEMS, set,callback);
 //            Toast.makeText(getActivity(),"refresh",Toast.LENGTH_SHORT).show();
+            throw new RuntimeException("This is a crash");
+
         }
 
         @Override
@@ -151,7 +154,6 @@ public class HomeActivity extends NetworkActivity {
 
         @Override
         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-
         }
     }
 

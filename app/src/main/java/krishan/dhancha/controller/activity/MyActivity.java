@@ -8,6 +8,7 @@ import android.widget.Spinner;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import com.crashlytics.android.Crashlytics;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
@@ -45,6 +46,7 @@ public class MyActivity extends NetworkActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.login);
         ButterKnife.inject(this);
         FormValidator.startLiveValidation(this, mEdtEmail, new SimpleErrorPopupCallback(this, false));
