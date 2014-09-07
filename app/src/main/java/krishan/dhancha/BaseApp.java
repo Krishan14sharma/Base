@@ -1,6 +1,7 @@
 package krishan.dhancha;
 
 import android.app.Application;
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ public class BaseApp extends Application {
         } else {
             Timber.plant(new CrashReportingTree());
         }
+
     }
 
     private static class CrashReportingTree extends Timber.HollowTree {

@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.util.List;
 
 import krishan.dhancha.BaseApp;
+import krishan.dhancha.api.helper.CustomErrorHandler;
 import krishan.dhancha.model.Movie;
-import retrofit.Callback;
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.Query;
+import rx.Observable;
 
 
 public class ApiClient {
@@ -32,8 +32,9 @@ public class ApiClient {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             okHttpClient.setCache(httpResponseCache);
-            RestAdapter restAdapter = new RestAdapter.Builder()
+            RestAdapter restAdapter = new RestAdapter.Builder().setErrorHandler(new CustomErrorHandler())
                     .setEndpoint("https://yts.re/api").setLogLevel(RestAdapter.LogLevel.HEADERS).setClient(new OkClient(okHttpClient))
 //                  .setRequestInterceptor(new RequestInterceptor() {
 //                @Override
@@ -56,10 +57,15 @@ public class ApiClient {
             return sTwitchTvService;
     }
 
+
+
     public interface ApiInterface {
+
         @Headers("Cache-Control: public, max-age=64000,max-stale=24000")
         @GET("/upcoming.json")
-        void getStreams(@Query("limit") int limit, @Query("set") int offset, Callback<List<Movie>> callback);
+//        void getStreams(@Query("limit") int limit, @Query("set") int offset, Callback<List<Movie>> callback);
+        Observable<List<Movie>> getStreams(@Query("limit") int limit, @Query("set") int offset);
+
     }
     //retrofit: no caching with post
 }

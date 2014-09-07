@@ -59,4 +59,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.squareup.picasso:picasso:2.3.3'
     compile 'com.crashlytics.android:crashlytics:1.+'
+    compile 'io.reactivex:rxjava:1.0.0-rc.1'
 }

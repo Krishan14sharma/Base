@@ -29,6 +29,8 @@ import krishan.dhancha.view.superlistview.SwipeDismissListViewTouchListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 
 public class HomeActivity extends NetworkActivity {
@@ -38,6 +40,7 @@ public class HomeActivity extends NetworkActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -108,7 +111,17 @@ public class HomeActivity extends NetworkActivity {
 
             callback=new CancelableCallback<List<Movie>>(callback1);
 
-            server.getStreams(NO_OF_ITEMS, set,callback);
+            //using callback
+//            server.getStreams(NO_OF_ITEMS, set,callback);
+              server.getStreams(NO_OF_ITEMS, set).subscribeOn(Schedulers.io())
+                    .subscribe(new Action1<List<Movie>>() {
+
+                        @Override
+                        public void call(List<Movie> movies) {
+
+                        }
+                    });
+
         }
 
 

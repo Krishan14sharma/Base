@@ -73,6 +73,7 @@
     <orderEntry type="library" exported="" name="eventbus-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.6.1" level="project" />
     <orderEntry type="library" exported="" name="appmsg-1.2.0" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.0.0-rc.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-1.1.11" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />
